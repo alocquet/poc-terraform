@@ -1,5 +1,9 @@
-variable "aws-profile" {}
-variable "public-key" {}
+variable "aws-profile" {
+  description = "AWS Profile Name"
+}
+variable "public-key" {
+  description = "SSH Public key used to access nginx EC2 Server"  
+}
 
 provider "aws" {
   region	= "eu-west-1"

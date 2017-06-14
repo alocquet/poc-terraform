@@ -1,22 +1,23 @@
-variable "aws-profile" {
+variable publickey {
+  description = "SSH Public key used to access nginx EC2 Server"
+}
+/*variable "aws-profile" {
   description = "AWS Profile Name"
 }
-variable "public-key" {
-  description = "SSH Public key used to access nginx EC2 Server"  
-}
-
 provider "aws" {
+  profile = "${var.aws-profile}"
+}*/
+provider "aws" { 
   region	= "eu-west-1"
-  profile       = "${var.aws-profile}"
 }
 
-module "nginx" {
-  source = "./template/nginx"
-  instance-type = "t2.micro"
-  project-name = "terraform"
-}
-
-resource "aws_key_pair" "deployer" {
-  key_name   = "terraform-key"
-  public_key = "${var.public-key}"
+module "base" {
+  /*source = "./template/base/instance/ondemand"*/
+  source = "./template/base/instance/spot"
+  /*instance-type = "t2.micro"*/
+  instance-type = "m4.large"
+  project-name = "ligoj"
+  instance-name = "blog"
+  os-name = "linux"
+  public-key = "${var.publickey}"
 }
